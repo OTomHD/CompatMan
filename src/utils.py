@@ -57,11 +57,10 @@ def download_to_temp_folder(link: str, file_size: int, name: str):
         os.remove(folder_path)
     with open(file=folder_path, mode="xb") as file:
         total_downloaded = 0
-        chunk_size = 1024 ^ 3
-        for chunk in response.iter_content(chunk_size=chunk_size):
-            print(f"Downloading {int(total_downloaded / chunk_size)}/{int(file_size / chunk_size)}MB", end="\r")
+        for chunk in response.iter_content(chunk_size=1024 ^ 2):
+            print(f"Downloading {int((total_downloaded / file_size) * 100)}%", end="\r")
             file.write(chunk)
-            total_downloaded += chunk_size
+            total_downloaded += len(chunk)
         print("")
 
 
