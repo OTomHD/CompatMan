@@ -1,0 +1,33 @@
+#!/bin/python
+import argparse
+from src.Commands import syncCommand, listCommand
+
+
+def main():
+    main_parser = argparse.ArgumentParser(
+        prog="src",
+        description="A config based compatibility tool manager and downloader")
+    subparser = main_parser.add_subparsers(
+        title="Commands", help="src Commands", dest="command")
+
+    list_parser = subparser.add_parser("list", help="List all configs found in config file")
+
+    sync_parser = subparser.add_parser("sync", help="Sync command to donwload or updated wine compatibility tools")
+    sync_parser.add_argument("--config", "-c", help="Download or update selected runner", action="append",
+                             dest="configs")
+    sync_parser.add_argument("--force", "-f", help="will not check version or if folder already exists and force "
+                                                   "install", action="store_true", dest="force")
+
+    args = main_parser.parse_args()
+
+    match args.command:
+        case "sync":
+            syncCommand.main(args.configs, args.force)
+        case "list":
+            listCommand.main()
+        case _:
+            listCommand.main()
+
+
+if __name__ == '__main__':
+    main()
