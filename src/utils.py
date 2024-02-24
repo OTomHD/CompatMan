@@ -1,3 +1,4 @@
+import hashlib
 import os
 import configparser
 import requests
@@ -68,3 +69,11 @@ def extract_tar_file_to_temp_folder(tarfile_path: str):
     with tarfile.open(name=tarfile_path) as tar_file:
         tar_file.extractall(get_temp_folder())
         return tar_file.getnames()  # Return member names
+
+
+def check_checksum(algorithm, file, checksum):
+    with open(file, "rb") as file:
+        file_checksum = hashlib.new(algorithm, file.read()).hexdigest()
+        if checksum == file_checksum:
+            return True
+        return False
