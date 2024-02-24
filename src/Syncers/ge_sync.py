@@ -27,13 +27,13 @@ def sync(version, path, name, force):
     if not force and check_version_is_installed(version, folder_path, download_version):
         return
 
-    links = get_download_links(data["assets"])
-    if links["file_link"] == "" or links["file_link"] == "":
+    file_data = get_download_data(data["assets"])
+    if file_data["file_link"] == "" or file_data["file_link"] == "":
         print("Unable to find download link")
         return
 
     print(f"Downloading {download_version}...")
-    download_to_temp_folder(links["file_link"], links["file_size"], downloaded_archive_name)
+    download_to_temp_folder(file_data["file_link"], file_data["file_size"], downloaded_archive_name)
 
     print(f"Installing...")
     downloaded_folder = extract_tar_file_to_temp_folder(f"{get_temp_folder()}/{downloaded_archive_name}")[0]
@@ -57,7 +57,7 @@ def check_version_is_installed(expected_version, folder_path, new_version):
 
 # file_link = Tar File download
 # checksum_link = checksum text file download
-def get_download_links(assets):
+def get_download_data(assets):
     file_link = ""
     file_size = 0
     checksum = ""
