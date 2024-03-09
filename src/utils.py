@@ -9,9 +9,9 @@ def get_config_file():
     config_file_name = "config.conf"
     config_file_path = f"~/.config/compatman"  # Default search location
 
-    XDG_CONFIG_HOME = os.environ.get("XDG_CONFIG_HOME").removesuffix(
-        "/")  # see if XDG_CONFIG_HOME is set and use instead of default
+    XDG_CONFIG_HOME = os.environ.get("XDG_CONFIG_HOME")  # see if XDG_CONFIG_HOME is set and use instead of default
     if XDG_CONFIG_HOME is not None:
+        XDG_CONFIG_HOME.removesuffix("/")
         config_file_path = f"{XDG_CONFIG_HOME}/compatman"
 
     return os.path.expanduser(f"{config_file_path}/{config_file_name}")
